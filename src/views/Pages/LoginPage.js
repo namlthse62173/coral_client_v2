@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -150,9 +151,9 @@ function LoginPage() {
                     </Button>
                     <div className="pull-left">
                       <h6>
-                        <a href="/auth/register-page" className="link footer-link text-primary">
+                        <Link to="/auth/register-page" className="link footer-link text-primary">
                           Create Account
-                        </a>
+                        </Link>
                       </h6>
                     </div>
                     <div className="pull-right">
