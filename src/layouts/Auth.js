@@ -34,7 +34,7 @@ function Auth(props) {
         <div className="full-page section-image" filter-color={filterColor}>
           <Switch>
             {getRoutes(routes)}
-            <Redirect from="/auth" to="/auth/login-page" />
+            <Redirect from="/" to="/auth/login-page" />
           </Switch>
           <Footer fluid />
         </div>

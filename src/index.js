@@ -28,14 +28,14 @@ import AuthLayout from "layouts/Auth.js";
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route
+      {/* <Route
         path="/admin"
         render={(props) => {
           return <AdminLayout {...props} />;
         }}
-      />
+      /> */}
       <Route
-        path="/auth"
+        path="/"
         render={(props) => {
           return <AuthLayout {...props} />;
         }}

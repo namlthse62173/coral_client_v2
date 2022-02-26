@@ -2,7 +2,7 @@
   "name": "now-ui-dashboard-pro-react",
   "version": "1.5.0",
   "private": true,
-  "homepage": "https://demos.creative-tim.com/now-ui-dashboard-pro-react/#/",
+  "homepage": "https://demos.creative-tim.com/",
   "dependencies": {
     "bootstrap": "4.6.0",
     "chart.js": "3.2.1",
