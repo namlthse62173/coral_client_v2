@@ -1,24 +1,5 @@
-/*!
-
-=========================================================
-* Now UI Dashboard PRO React - v1.5.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-/*eslint-disable*/
 import React, { Component } from "react";
-// used for making the prop types of this component
 import PropTypes from "prop-types";
-// react plugin used to create switch buttons
 import Switch from "react-bootstrap-switch";
 
 function FixedPlugin(props) {
@@ -40,7 +21,6 @@ function FixedPlugin(props) {
           <i className="fa fa-cog fa-2x" />
         </div>
         <ul className="dropdown-menu show">
-          <li className="header-title">SIDEBAR BACKGROUND</li>
           <li className="adjustments-line">
             <div className="badge-colors text-center">
               <span
@@ -101,7 +81,7 @@ function FixedPlugin(props) {
             </div>
           </li>
           {window.location.href.indexOf("/auth/") > -1 ? null : (
-            <li className="header-title">Sidebar Mini</li>
+            <li className="header-title">Show sidebar</li>
           )}
           {window.location.href.indexOf("/auth/") > -1 ? null : (
             <li className="adjustments-line">
@@ -117,23 +97,6 @@ function FixedPlugin(props) {
               </div>
             </li>
           )}
-
-          <li className="button-container">
-            <a
-              href="https://www.creative-tim.com/product/now-ui-dashboard-pro-react?ref=nudr-fixed-plugin"
-              target="_blank"
-              className="btn btn-primary btn-block btn-round"
-            >
-              Buy now
-            </a>
-            <a
-              href="https://demos.creative-tim.com/now-ui-dashboard-pro-react/#/documentation/tutorial?ref=nudr-fixed-plugin"
-              className="btn btn-block btn-round btn-info"
-              target="_blank"
-            >
-              Documentation
-            </a>
-          </li>
         </ul>
       </div>
     </div>

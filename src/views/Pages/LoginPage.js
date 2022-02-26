@@ -1,28 +1,11 @@
-/*!
-
-=========================================================
-* Now UI Dashboard PRO React - v1.5.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
-
-// reactstrap components
 import {
   Card,
   CardBody,
   CardHeader,
   CardFooter,
   Form,
+  CardTitle,
   Container,
   Col,
   Input,
@@ -31,40 +14,83 @@ import {
   InputGroupText,
   Button,
 } from "reactstrap";
+import bgImage from "assets/img/auth-bg.jpg";
 
-// core components
-import nowLogo from "assets/img/now-logo.png";
-
-import bgImage from "assets/img/bg14.jpg";
+const verifyEmail = (value) => {
+  var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (emailRex.test(value)) {
+    return true;
+  }
+  return false;
+}
+const verifyLength = (value, length) => {
+  if (value.length >= length) {
+    return true;
+  }
+  return false;
+}
+const verifyData = (loginData) => {
+  if (loginData.email === "") {
+    return false;
+  }
+  if (loginData.password === "") {
+    return false;
+  }
+  return true;
+}
 
 function LoginPage() {
-  const [firstnameFocus, setfirstnameFocus] = React.useState(false);
-  const [lastnameFocus, setlastnameFocus] = React.useState(false);
+  const [emailFocus, setemailFocus] = React.useState(false);
+  const [passwordFocus, setPasswordFocus] = React.useState(false);
+
+  const [loginEmailState, setLoginEmailState] = React.useState("");
+  const [loginPasswordState, setLoginPasswordState] = React.useState("");
+
   React.useEffect(() => {
     document.body.classList.add("login-page");
     return function cleanup() {
       document.body.classList.remove("login-page");
     };
   }, []);
+
+  const handleLogin = e => {
+    e.preventDefault();
+    if (loginEmailState === "") {
+      setLoginEmailState("has-danger");
+    }
+    if (loginPasswordState === "") {
+      setLoginPasswordState("has-danger");
+    }
+
+    const data = new FormData(e.target);
+    const loginData = {
+      email: data.get('email'),
+      password: data.get('password')
+    }
+
+    if (verifyData(loginData)) {
+      console.log("Form data is accepted")
+      console.log({ loginData })
+    } else {
+      console.log("Form data is not accepted")
+    }
+  }
+
   return (
     <>
-      <div className="content">
+      <div className="content position-fixed">
         <div className="login-page">
           <Container>
-            <Col xs={12} md={8} lg={4} className="ml-auto mr-auto">
-              <Form>
-                <Card className="card-login card-plain">
-                  <CardHeader>
-                    <div className="logo-container">
-                      <img src={nowLogo} alt="now-logo" />
-                    </div>
+            <Col xs={12} md={8} lg={6} className="ml-auto mr-auto">
+              <Form onSubmit={handleLogin}>
+                <Card>
+                  <CardHeader className="text-center">
+                    <CardTitle tag="h4">LOGIN</CardTitle>
                   </CardHeader>
                   <CardBody>
+                    {/* Email */}
                     <InputGroup
-                      className={
-                        "no-border form-control-lg " +
-                        (firstnameFocus ? "input-group-focus" : "")
-                      }
+                      className={emailFocus ? `input-group-focus ${loginEmailState}` : `${loginEmailState}`}
                     >
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -72,17 +98,24 @@ function LoginPage() {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
+                        name="email"
                         type="text"
-                        placeholder="First Name..."
-                        onFocus={(e) => setfirstnameFocus(true)}
-                        onBlur={(e) => setfirstnameFocus(false)}
+                        placeholder="Your email"
+                        onFocus={() => setemailFocus(true)}
+                        onBlur={() => setemailFocus(false)}
+                        onChange={(e) => {
+                          if (!verifyEmail(e.target.value)) {
+                            setLoginEmailState("has-danger");
+                          } else {
+                            setLoginEmailState("has-success");
+                          }
+                        }}
                       />
                     </InputGroup>
+
+                    {/* Password */}
                     <InputGroup
-                      className={
-                        "no-border form-control-lg " +
-                        (lastnameFocus ? "input-group-focus" : "")
-                      }
+                      className={passwordFocus ? `input-group-focus ${loginPasswordState}` : `${loginPasswordState}`}
                     >
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -90,34 +123,42 @@ function LoginPage() {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        type="text"
-                        placeholder="Last Name..."
-                        onFocus={(e) => setlastnameFocus(true)}
-                        onBlur={(e) => setlastnameFocus(false)}
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        onFocus={() => setPasswordFocus(true)}
+                        onBlur={() => setPasswordFocus(false)}
+                        onChange={(e) => {
+                          if (!verifyLength(e.target.value, 1)) {
+                            setLoginPasswordState("has-danger");
+                          } else {
+                            setLoginPasswordState("has-success");
+                          }
+                        }}
                       />
                     </InputGroup>
                   </CardBody>
+
+                  {/* Button */}
                   <CardFooter>
                     <Button
                       block
                       color="primary"
-                      size="lg"
-                      href="#pablo"
-                      className="mb-3 btn-round"
+                      size="small"
                     >
-                      Get Started
+                      Start login
                     </Button>
                     <div className="pull-left">
                       <h6>
-                        <a href="#pablo" className="link footer-link">
+                        <a href="/auth/register-page" className="link footer-link text-primary">
                           Create Account
                         </a>
                       </h6>
                     </div>
                     <div className="pull-right">
                       <h6>
-                        <a href="#pablo" className="link footer-link">
-                          Need Help?
+                        <a href="" className="link footer-link text-primary">
+                          Forgot password
                         </a>
                       </h6>
                     </div>

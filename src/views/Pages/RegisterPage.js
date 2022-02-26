@@ -1,22 +1,4 @@
-/*!
-
-=========================================================
-* Now UI Dashboard PRO React - v1.5.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
-
-// reactstrap components
 import {
   Card,
   CardHeader,
@@ -27,123 +9,130 @@ import {
   Row,
   Col,
   Form,
-  FormGroup,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
   Input,
-  Label,
   Button,
 } from "reactstrap";
+import bgImage from "assets/img/auth-bg.jpg";
 
-// core components
-import bgImage from "assets/img/bg16.jpg";
+const verifyEmail = (value) => {
+  var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (emailRex.test(value)) {
+    return true;
+  }
+  return false;
+}
+const verifyLength = (value, length) => {
+  if (value.length >= length) {
+    return true;
+  }
+  return false;
+}
+const compare = (string1, string2) => {
+  if (string1 === string2) {
+    return true;
+  }
+  return false;
+}
+const verifyData = (registerData) => {
+  if (registerData.email === "") {
+    return false;
+  }
+  if (registerData.firstName === "") {
+    return false;
+  }
+  if (registerData.lastName === "") {
+    return false;
+  }
+  if (registerData.password === "") {
+    return false;
+  }
+  if (registerData.confirmPassword === "") {
+    return false;
+  }
+  if (registerData.password !== registerData.confirmPassword) {
+    return false;
+  }
+  return true;
+}
 
 function RegisterPage() {
   const [firstnameFocus, setfirstnameFocus] = React.useState(false);
   const [lastnameFocus, setlastnameFocus] = React.useState(false);
   const [emailFocus, setemailFocus] = React.useState(false);
+  const [passwordFocus, setPasswordFocus] = React.useState(false);
+  const [passwordRememFocus, setPasswordRememFocus] = React.useState(false);
+
+  const [registerEmailState, setRegisterEmailState] = React.useState("");
+  const [registerFirstNameState, setRegisterFirstNameState] = React.useState("");
+  const [registerLastNameState, setRegisterLastNameState] = React.useState("");
+  const [registerPasswordState, setRegisterPasswordState] = React.useState("");
+  const [registerPassword, setRegisterPassword] = React.useState("");
+  const [registerConfirmPasswordState, setRegisterConfirmPasswordState] = React.useState("");
+
   React.useEffect(() => {
     document.body.classList.add("register-page");
     return function cleanup() {
       document.body.classList.remove("register-page");
     };
   }, []);
+
+  const handleRegister = e => {
+    e.preventDefault()
+
+    if (registerEmailState === "") {
+      setRegisterEmailState("has-danger");
+    }
+    if (registerFirstNameState === "") {
+      setRegisterFirstNameState("has-danger");
+    }
+    if (registerLastNameState === "") {
+      setRegisterLastNameState("has-danger");
+    }
+    if (registerPasswordState === "") {
+      setRegisterPasswordState("has-danger");
+    }
+    if (registerConfirmPasswordState === "") {
+      setRegisterConfirmPasswordState("has-danger");
+    }
+
+    const data = new FormData(e.target);
+    const registerData = {
+      email: data.get('email'),
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      password: data.get('password'),
+      confirmPassword: data.get('confirmPassword')
+    }
+
+    if (verifyData(registerData)) {
+      console.log("Form data is accepted")
+      console.log({ registerData })
+    } else {
+      console.log("Form data is not accepted")
+    }
+  }
+
   return (
     <>
-      <div className="content">
+      <div className="content position-fixed">
         <div className="register-page">
           <Container>
             <Row className="justify-content-center">
-              <Col lg={5} md={8} xs={12}>
-                <div className="info-area info-horizontal mt-5">
-                  <div className="icon icon-primary">
-                    <i className="now-ui-icons media-2_sound-wave" />
-                  </div>
-                  <div className="description">
-                    <h5 className="info-title">Marketing</h5>
-                    <p className="description">
-                      We've created the marketing campaign of the website. It
-                      was a very interesting collaboration.
-                    </p>
-                  </div>
-                </div>
-                <div className="info-area info-horizontal">
-                  <div className="icon icon-primary">
-                    <i className="now-ui-icons media-1_button-pause" />
-                  </div>
-                  <div className="description">
-                    <h5 className="info-title">Fully Coded in React 16</h5>
-                    <p className="description">
-                      We've developed the website with React 16, HTML5 and CSS3.
-                      The client has access to the code using GitHub.
-                    </p>
-                  </div>
-                </div>
-                <div className="info-area info-horizontal">
-                  <div className="icon icon-info">
-                    <i className="now-ui-icons users_single-02" />
-                  </div>
-                  <div className="description">
-                    <h5 className="info-title">Built Audience</h5>
-                    <p className="description">
-                      There is also a Fully Customizable CMS Admin Dashboard for
-                      this product.
-                    </p>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={4} md={8} xs={12}>
-                <Card className="card-signup">
+              <Col lg={8} md={8} xs={12}>
+                <Card >
+                  {/* Register header */}
                   <CardHeader className="text-center">
-                    <CardTitle tag="h4">Register</CardTitle>
-                    <div className="social btns-mr-5">
-                      <Button className="btn-icon btn-round" color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button className="btn-icon btn-round" color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </Button>
-                      <Button className="btn-icon btn-round" color="facebook">
-                        <i className="fab fa-facebook-f" />
-                      </Button>
-                      <h5 className="card-description">or be classical</h5>
-                    </div>
+                    <CardTitle tag="h4">REGISTER</CardTitle>
                   </CardHeader>
                   <CardBody>
-                    <Form>
+                    <Form onSubmit={handleRegister}>
+
+                      {/* Emal */}
                       <InputGroup
-                        className={firstnameFocus ? "input-group-focus" : ""}
-                      >
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="now-ui-icons users_circle-08" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          type="text"
-                          placeholder="First Name..."
-                          onFocus={(e) => setfirstnameFocus(true)}
-                          onBlur={(e) => setfirstnameFocus(false)}
-                        />
-                      </InputGroup>
-                      <InputGroup
-                        className={lastnameFocus ? "input-group-focus" : ""}
-                      >
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="now-ui-icons text_caps-small" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          type="text"
-                          placeholder="Last Name..."
-                          onFocus={(e) => setlastnameFocus(true)}
-                          onBlur={(e) => setlastnameFocus(false)}
-                        />
-                      </InputGroup>
-                      <InputGroup
-                        className={emailFocus ? "input-group-focus" : ""}
+                        className={emailFocus ? `input-group-focus ${registerEmailState}` : `${registerEmailState}`}
                       >
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -151,34 +140,136 @@ function RegisterPage() {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
+                          name="email"
                           type="email"
-                          placeholder="Email..."
-                          onFocus={(e) => setemailFocus(true)}
-                          onBlur={(e) => setemailFocus(false)}
+                          placeholder="Email"
+                          onFocus={() => setemailFocus(true)}
+                          onBlur={() => setemailFocus(false)}
+                          onChange={(e) => {
+                            if (!verifyEmail(e.target.value)) {
+                              setRegisterEmailState("has-danger");
+                            } else {
+                              setRegisterEmailState("has-success");
+                            }
+                          }}
                         />
                       </InputGroup>
-                      <FormGroup check>
-                        <Label check>
-                          <Input type="checkbox" />
-                          <span className="form-check-sign" />
-                          <div>
-                            I agree to the{" "}
-                            <a href="#something">terms and conditions</a>.
-                          </div>
-                        </Label>
-                      </FormGroup>
+
+                      {/* First name */}
+                      <InputGroup
+                        className={firstnameFocus ? `input-group-focus ${registerFirstNameState}` : `${registerFirstNameState}`}
+                      >
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="now-ui-icons users_circle-08" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          name="firstName"
+                          type="text"
+                          placeholder="First Name"
+                          onFocus={() => setfirstnameFocus(true)}
+                          onBlur={() => setfirstnameFocus(false)}
+                          onChange={(e) => {
+                            if (!verifyLength(e.target.value, 1)) {
+                              setRegisterFirstNameState("has-danger");
+                            } else {
+                              setRegisterFirstNameState("has-success");
+                            }
+                          }}
+                        />
+                      </InputGroup>
+
+                      {/* Last name */}
+                      <InputGroup
+                        className={lastnameFocus ? `input-group-focus ${registerLastNameState}` : `${registerLastNameState}`}
+                      >
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="now-ui-icons text_caps-small" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          name="lastName"
+                          type="text"
+                          placeholder="Last Name"
+                          onFocus={() => setlastnameFocus(true)}
+                          onBlur={() => setlastnameFocus(false)}
+                          onChange={(e) => {
+                            if (!verifyLength(e.target.value, 1)) {
+                              setRegisterLastNameState("has-danger");
+                            } else {
+                              setRegisterLastNameState("has-success");
+                            }
+                          }}
+                        />
+                      </InputGroup>
+
+                      {/* Password */}
+                      <InputGroup
+                        className={passwordFocus ? `input-group-focus ${registerPasswordState}` : `${registerPasswordState}`}
+                      >
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="now-ui-icons travel_info" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          name="password"
+                          type="password"
+                          placeholder="Password"
+                          onFocus={() => setPasswordFocus(true)}
+                          onBlur={() => setPasswordFocus(false)}
+                          onChange={(e) => {
+                            if (!verifyLength(e.target.value, 1)) {
+                              setRegisterPasswordState("has-danger");
+                            } else {
+                              setRegisterPasswordState("has-success");
+                            }
+                            setRegisterPassword(e.target.value);
+                          }}
+                        />
+                      </InputGroup>
+
+                      {/* Password confirm */}
+                      <InputGroup
+                        className={passwordRememFocus ? `input-group-focus ${registerConfirmPasswordState}` : `${registerConfirmPasswordState}`}
+                      >
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="now-ui-icons travel_info" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          name="confirmPassword"
+                          type="password"
+                          placeholder="Confirm password"
+                          onFocus={() => setPasswordRememFocus(true)}
+                          onBlur={() => setPasswordRememFocus(false)}
+                          onChange={(e) => {
+                            if (!compare(e.target.value, registerPassword)) {
+                              setRegisterConfirmPasswordState("has-danger");
+                              setRegisterPasswordState("has-danger");
+                            } else {
+                              setRegisterConfirmPasswordState("has-success");
+                              setRegisterPasswordState("has-success");
+                            }
+                          }}
+                        />
+                      </InputGroup>
+
+                      {/* Button */}
+                      <CardFooter className="text-center">
+                        <Button
+                          color="primary"
+                          size="small"
+                          type="submit"
+                        >
+                          Start register
+                        </Button>
+                      </CardFooter>
                     </Form>
                   </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      color="primary"
-                      size="lg"
-                      className="btn-round"
-                      href="#pablo"
-                    >
-                      Get Started
-                    </Button>
-                  </CardFooter>
                 </Card>
               </Col>
             </Row>
