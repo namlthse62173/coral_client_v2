@@ -1,49 +1,200 @@
 import React from 'react';
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
   Row,
   Col,
-  Form,
-  Input,
-  FormGroup,
 } from "reactstrap";
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { ArrowCircleDownOutlined, ArrowCircleRightOutlined, BlockOutlined } from '@mui/icons-material'
 
-const dataSource = [
-  ['Apple', 'Orange'],
-  ['Facebook', 'Google'],
-  ['Celery', 'Cheeseburger'],
-];
+const fakeData = [
+    {
+      "name": "Jeremiah Griffin",
+      "address": "190 Filzu Avenue"
+    },
+    {
+      "name": "Myrtle Carr",
+      "address": "1843 Juamo Street"
+    },
+    {
+      "name": "Sarah Fisher",
+      "address": "1618 Pudo Lane",
+      "subname": [
+        {
+          "name": "Garrett Delgado",
+          "address": "338 Ogim Place"
+        },
+        {
+          "name": "Nancy Holloway",
+          "address": "1023 Zacwal Point"
+        },
+        {
+          "name": "Gerald Fowler",
+          "address": "1366 Juvi Mill"
+        },
+        {
+          "name": "Edward Woods",
+          "address": "596 Opilek Loop"
+        },
+        {
+          "name": "May Rivera",
+          "address": "1795 Fodoge Mill"
+        }
+      ]
+    },
+    {
+      "name": "Sam Griffith",
+      "address": "1884 Mohza Ridge"
+    },
+    {
+      "name": "Arthur Stephens",
+      "address": "498 Jegbu Parkway"
+    },
+    {
+      "name": "Terry Newman",
+      "address": "502 Zuwbu Place",
+      "subname": [
+        {
+          "name": "Martin Turner",
+          "address": "57 Varug Junction"
+        },
+        {
+          "name": "Verna Atkins",
+          "address": "1377 Bafpi Glen"
+        },
+        {
+          "name": "Bruce Huff",
+          "address": "1139 Cudhi Parkway"
+        }
+      ],
+    },
+    {
+      "name": "Olivia Adkins",
+      "address": "245 Cusu Center"
+    },
+    {
+      "name": "Ellen Lamb",
+      "address": "126 Zaznin Plaza"
+    },
+    {
+      "name": "Frederick Mills",
+      "address": "142 Mowgen Turnpike",
+      "subname": [
+        {
+          "name": "Hannah Copeland",
+          "address": "84 Deevi Trail"
+        },
+        {
+          "name": "Amy Conner",
+          "address": "1253 Suvri Manor"
+        }
+      ],
+    },
+    {
+      "name": "Helen Keller",
+      "address": "1772 Guvul Highway"
+    },
+    {
+      "name": "Jeremiah Griffin",
+      "address": "190 Filzu Avenue"
+    },
+    {
+      "name": "Myrtle Carr",
+      "address": "1843 Juamo Street"
+    },
+    {
+      "name": "Sarah Fisher",
+      "address": "1618 Pudo Lane",
+      "subname": [
+        {
+          "name": "Garrett Delgado",
+          "address": "338 Ogim Place"
+        },
+        {
+          "name": "Nancy Holloway",
+          "address": "1023 Zacwal Point"
+        },
+        {
+          "name": "Gerald Fowler",
+          "address": "1366 Juvi Mill"
+        },
+        {
+          "name": "Edward Woods",
+          "address": "596 Opilek Loop"
+        },
+        {
+          "name": "May Rivera",
+          "address": "1795 Fodoge Mill"
+        }
+      ]
+    },
+    {
+      "name": "Sam Griffith",
+      "address": "1884 Mohza Ridge"
+    },
+    {
+      "name": "Arthur Stephens",
+      "address": "498 Jegbu Parkway"
+    },
+    {
+      "name": "Terry Newman",
+      "address": "502 Zuwbu Place",
+      "subname": [
+        {
+          "name": "Martin Turner",
+          "address": "57 Varug Junction"
+        },
+        {
+          "name": "Verna Atkins",
+          "address": "1377 Bafpi Glen"
+        },
+        {
+          "name": "Bruce Huff",
+          "address": "1139 Cudhi Parkway"
+        }
+      ],
+    },
+    {
+      "name": "Olivia Adkins",
+      "address": "245 Cusu Center"
+    },
+    {
+      "name": "Ellen Lamb",
+      "address": "126 Zaznin Plaza"
+    },
+    {
+      "name": "Frederick Mills",
+      "address": "142 Mowgen Turnpike",
+      "subname": [
+        {
+          "name": "Hannah Copeland",
+          "address": "84 Deevi Trail"
+        },
+        {
+          "name": "Amy Conner",
+          "address": "1253 Suvri Manor"
+        }
+      ],
+    },
+    {
+      "name": "Helen Keller",
+      "address": "1772 Guvul Highway"
+    }
+]
 
 export default function Factsheet() {
-  const [profile, setProfile] = React.useState({})
+
+  const [data, setData] = React.useState([])
   React.useEffect(() => {
-    setProfile({
-      firstName: 'Lưu Thuận',
-      lastName: 'Hoàng Nam',
-      email: 'namlthse62173@fpt.edu.vn',
-      phone: '0945300797',
-      address: '335 Hoàng Sa'
-    })
+    setData(fakeData)
   }, [])
 
-  const handleSave = e => {
-    e.preventDefault()
-    const data = new FormData(e.target);
-    console.log({
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      phone: data.get('phone'),
-      address: data.get('address')
-    })
+  const handleClick = e => {
+    console.log(e)
   }
 
   return (
@@ -58,26 +209,30 @@ export default function Factsheet() {
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Col className='px-5'>
+                  <Col className='p-5'>
                     <TreeView
                       aria-label="multi-select"
-                      defaultCollapseIcon={<ExpandMoreIcon />}
-                      defaultExpandIcon={<ChevronRightIcon />}
-                      multiSelect
+                      defaultCollapseIcon={<ArrowCircleDownOutlined />}
+                      defaultExpandIcon={<ArrowCircleRightOutlined />}
+                      defaultEndIcon={<BlockOutlined />}
                     >
-                      <TreeItem nodeId="1" label="Applications">
-                        <TreeItem nodeId="2" label="Calendar" />
-                        <TreeItem nodeId="3" label="Chrome" />
-                        <TreeItem nodeId="4" label="Webstorm" />
-                      </TreeItem>
-                      <TreeItem nodeId="5" label="Documents">
-                        <TreeItem nodeId="6" label="MUI">
-                          <TreeItem nodeId="7" label="src">
-                            <TreeItem nodeId="8" label="index.js" />
-                            <TreeItem nodeId="9" label="tree-view.js" />
-                          </TreeItem>
+                      {data.map((val, key) => (
+                        <TreeItem
+                          key={key}
+                          label={val.name}
+                          nodeId={key}
+                          onClick={val.subname ? "" : () => handleClick({ value: val.name, parent: key })}
+                        >
+                          {val.subname ? val.subname.map((v, k) => (
+                            <TreeItem
+                              key={k}
+                              label={v.name}
+                              nodeId={`${key} - ${k}`}
+                              onClick={() => handleClick({ value: v.name, parent: key, child: k })}
+                            />
+                          )) : ''}
                         </TreeItem>
-                      </TreeItem>
+                      ))}
                     </TreeView>
                   </Col>
                 </Row>
