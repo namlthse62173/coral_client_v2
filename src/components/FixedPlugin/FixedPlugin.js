@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Switch from "react-bootstrap-switch";
 
 function FixedPlugin(props) {
-  const [classes, setClasses] = React.useState("dropdown show");
+  const [classes, setClasses] = React.useState("dropdown");
   const handleClick = () => {
     if (classes === "dropdown") {
       setClasses("dropdown show");
@@ -81,7 +81,7 @@ function FixedPlugin(props) {
             </div>
           </li>
           {window.location.href.indexOf("/auth/") > -1 ? null : (
-            <li className="header-title">Show sidebar</li>
+            <li className="header-title">Mini sidebar</li>
           )}
           {window.location.href.indexOf("/auth/") > -1 ? null : (
             <li className="adjustments-line">

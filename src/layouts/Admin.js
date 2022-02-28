@@ -1,33 +1,13 @@
-/*!
-
-=========================================================
-* Now UI Dashboard PRO React - v1.5.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
-// javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
-// react plugin for creating notifications
 import NotificationAlert from "react-notification-alert";
-
-// core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
-
 import routes from "routes.js";
+import UserPage from "views/Pages/UserPage.js"
 
 var ps;
 
@@ -37,6 +17,7 @@ function Admin(props) {
   const [backgroundColor, setBackgroundColor] = React.useState("blue");
   const notificationAlert = React.useRef();
   const mainPanel = React.useRef();
+
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
@@ -51,28 +32,31 @@ function Admin(props) {
       }
     };
   });
+
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     mainPanel.current.scrollTop = 0;
   }, [location]);
   const minimizeSidebar = () => {
+
     var message = "Sidebar mini ";
     if (document.body.classList.contains("sidebar-mini")) {
       setSidebarMini(false);
-      message += "deactivated...";
+      message += "deactivated";
     } else {
       setSidebarMini(true);
-      message += "activated...";
+      message += "activated";
     }
     document.body.classList.toggle("sidebar-mini");
+
     var options = {};
     options = {
-      place: "tr",
+      place: "br",
       message: message,
       type: "info",
       icon: "now-ui-icons ui-1_bell-53",
-      autoDismiss: 7,
+      autoDismiss: 1,
     };
     notificationAlert.current.notificationAlert(options);
   };
@@ -130,6 +114,10 @@ function Admin(props) {
         <AdminNavbar {...props} brandText={getActiveRoute(routes)} />
         <Switch>
           {getRoutes(routes)}
+          <Route
+            path="/admin/user-page"
+            component={UserPage}
+          />
           <Redirect from="/admin" to="/admin/dashboard" />
         </Switch>
         {

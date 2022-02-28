@@ -87,7 +87,7 @@ function Notifications() {
       ),
       type: type,
       icon: "now-ui-icons ui-1_bell-53",
-      autoDismiss: 7,
+      autoDismiss: 1,
     };
     notificationAlert.current.notificationAlert(options);
   };
