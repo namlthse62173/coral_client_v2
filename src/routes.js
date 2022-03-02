@@ -44,6 +44,7 @@ import RegisterPage from "views/Pages/RegisterPage.js";
 import LockScreenPage from "views/Pages/LockScreenPage.js";
 import Article from "views/Articles/Article.js";
 import Factsheet from "views/Factsheets/Factsheet.js";
+import Feedback from "views/Feedbacks/Feedback.js";
 
 let routes = [
   {
@@ -85,7 +86,7 @@ let routes = [
         path: "/management/feedback",
         name: "Feedbacks",
         mini: "FB",
-        component: Dashboard,
+        component: Feedback,
         layout: "/admin",
       },
       {

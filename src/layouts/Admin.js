@@ -7,7 +7,8 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 import routes from "routes.js";
-import UserPage from "views/Pages/UserPage.js"
+import UserPage from "views/Pages/UserPage.js";
+import Feedback from "views/Feedbacks/Feedback";
 
 var ps;
 
@@ -118,7 +119,11 @@ function Admin(props) {
             path="/admin/user-page"
             component={UserPage}
           />
-          <Redirect from="/admin" to="/admin/dashboard" />
+          <Route
+            path="/admin/management/feedback"
+            component={Feedback}
+          />
+          <Redirect from="/admin" to="/admin/home-page" />
         </Switch>
         {
           // we don't want the Footer to be rendered on full screen maps page
