@@ -4,12 +4,14 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
+  Badge,
   Row,
   Col,
   Button,
 } from "reactstrap";
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import ReactTable from "components/ReactTable/ReactTable.js";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 const demoData = [
   {
@@ -35,8 +37,47 @@ const demoData = [
   }
 ]
 
+const onConfirm = () => {
+  console.log("On confirm");
+}
+
 export default function Feedback() {
+  const [isManage, setIsManage] = React.useState(true)
+  const [detailData, setDetailData] = React.useState({})
   const [data, setData] = React.useState(demoData);
+  const [alert, setAlert] = React.useState(null);
+
+  const handleView = obj => {
+    console.log(obj)
+    setIsManage(false)
+    setDetailData(obj)
+  };
+  const handleConfirm = () => {
+    setAlert(null)
+  };
+  const handleCancel = () => {
+    setAlert(null)
+  };
+  const handleDelete = obj => {
+    console.log("Hey")
+    setAlert(
+      <SweetAlert
+        warning
+        style={{ display: "block", marginTop: "-100px" }}
+        title="Are you sure?"
+        confirmBtnBsStyle="info"
+        cancelBtnBsStyle="danger"
+        confirmBtnText="Yes, delete it!"
+        cancelBtnText="Cancel"
+        showCancel
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      >
+        You will not be able to recover this action!
+      </SweetAlert>
+    );
+  };
+
   const [dataState, setDataState] = React.useState(
     data.map((d, key) => {
       return {
@@ -52,17 +93,7 @@ export default function Feedback() {
             <Button
               onClick={() => {
                 let obj = dataState.find((o) => o.id === key);
-                alert(
-                  "You've clicked EDIT button on \n{ \nName: " +
-                  obj.email +
-                  ", \nposition: " +
-                  obj.title +
-                  ", \noffice: " +
-                  obj.time +
-                  ", \nage: " +
-                  obj.content +
-                  "\n}."
-                );
+                handleView({ ...obj, actions: "" })
               }}
               className="btn-icon btn-round"
               color="warning"
@@ -73,18 +104,8 @@ export default function Feedback() {
             {/* use this button to remove the data row */}
             <Button
               onClick={() => {
-                var data = dataState;
-                data.find((o, i) => {
-                  if (o.id === key) {
-                    // here you should add some custom code so you can delete the data
-                    // from this component and from your server as well
-                    data.splice(i, 1);
-                    console.log(data);
-                    return true;
-                  }
-                  return false;
-                });
-                setDataState(data);
+                let obj = dataState.find((o) => o.id === key);
+                handleDelete({ ...obj, actions: "" })
               }}
               className="btn-icon btn-round"
               color="danger"
@@ -102,44 +123,84 @@ export default function Feedback() {
     <>
       <PanelHeader size="sm" />
       <div className='content'>
-        <Row>
-          <Col xs={12} md={12}>
-            <Card>
-              <CardHeader className='text-center'>
-                <h5 className='title'>Feedbacks</h5>
-              </CardHeader>
-              <CardBody>
-                <ReactTable
-                  data={dataState}
-                  columns={[
-                    {
-                      Header: "User",
-                      accessor: "email",
-                    },
-                    {
-                      Header: "Title",
-                      accessor: "title",
-                    },
-                    {
-                      Header: "Send time",
-                      accessor: "time",
-                    },
-                    {
-                      Header: "Content",
-                      accessor: "content",
-                    },
-                    {
-                      Header: "Actions",
-                      accessor: "actions",
-                      sortable: false,
-                      filterable: false,
-                    },
-                  ]}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+        {alert}
+        {
+          isManage ?
+            <Row>
+              <Col xs={12} md={12}>
+                <Card>
+                  <CardHeader className='text-center'>
+                    <h5 className='title'>Feedbacks</h5>
+                  </CardHeader>
+                  <CardBody>
+                    <ReactTable
+                      data={dataState}
+                      columns={[
+                        {
+                          Header: "User",
+                          accessor: "email",
+                        },
+                        {
+                          Header: "Title",
+                          accessor: "title",
+                        },
+                        {
+                          Header: "Send time",
+                          accessor: "time",
+                        },
+                        {
+                          Header: "Content",
+                          accessor: "content",
+                        },
+                        {
+                          Header: "Actions",
+                          accessor: "actions",
+                          sortable: false,
+                          filterable: false,
+                        },
+                      ]}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+            :
+            <Row>
+              <Col xs={12} md={12}>
+                <Card>
+                  <CardHeader className='text-center'>
+                    <h5 className='title'>Feedback Detail</h5>
+                  </CardHeader>
+                  <CardBody>
+                    <div className="timeline">
+                      <div className="timeline-inverted">
+                        <div className="timeline-panel">
+                          <div className="timeline-heading">
+                            <Badge color="danger">{detailData.title}</Badge>
+                          </div>
+                          <div className="timeline-body">
+                            <p>
+                              {detailData.content}
+                            </p>
+                            <hr />
+                            <p>{`From: ${detailData.email}`}</p>
+                            <p>{`At: ${detailData.time}`}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      className='btn btn-secondary btn-sm'
+                      onClick={() => setIsManage(true)}
+                    >
+                      Back
+                    </button>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+        }
+
       </div>
     </>
   )

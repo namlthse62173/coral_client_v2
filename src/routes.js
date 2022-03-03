@@ -45,6 +45,7 @@ import LockScreenPage from "views/Pages/LockScreenPage.js";
 import Article from "views/Articles/Article.js";
 import Factsheet from "views/Factsheets/Factsheet.js";
 import Feedback from "views/Feedbacks/Feedback.js";
+import Upload from "views/Upload/Upload.js";
 
 let routes = [
   {
@@ -72,7 +73,7 @@ let routes = [
     path: "/upload",
     name: "Upload video/image",
     icon: "now-ui-icons design_bullet-list-67",
-    component: Dashboard,
+    component: Upload,
     layout: "/admin",
   },
   {

@@ -86,9 +86,9 @@ function AdminNavbar(props) {
               className="navbar-toggler"
               onClick={() => openSidebar()}
             >
-              <span className="navbar-toggler-bar bar1" />
-              <span className="navbar-toggler-bar bar2" />
-              <span className="navbar-toggler-bar bar3" />
+              <span className="navbar-toggler-bar bar1 bg-dark" />
+              <span className="navbar-toggler-bar bar2 bg-dark" />
+              <span className="navbar-toggler-bar bar3 bg-dark" />
             </button>
           </div>
         </div>
