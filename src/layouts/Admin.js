@@ -9,6 +9,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 import routes from "routes.js";
 import UserPage from "views/Pages/UserPage.js";
 import Feedback from "views/Feedbacks/Feedback";
+import SendFeedback from "views/SendFeedbacks/SendFeedback";
 
 var ps;
 
@@ -122,6 +123,10 @@ function Admin(props) {
           <Route
             path="/admin/management/feedback"
             component={Feedback}
+          />
+          <Route
+            path="/admin/management/send-feedback"
+            component={SendFeedback}
           />
           <Redirect from="/admin" to="/admin/home-page" />
         </Switch>

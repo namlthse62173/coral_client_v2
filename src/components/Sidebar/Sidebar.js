@@ -186,6 +186,12 @@ function Sidebar(props) {
                     </Link>
                   </li>
                   <li>
+                    <Link to="/admin/management/send-feedback">
+                      <span className="sidebar-mini-icon">FB</span>
+                      <span className="sidebar-normal">Send Feedbacks</span>
+                    </Link>
+                  </li>
+                  <li>
                     <Link to="/auth" onClick={handleLogout}>
                       <span className="sidebar-mini-icon">L</span>
                       <span className="sidebar-normal">Logout</span>
