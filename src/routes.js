@@ -46,6 +46,9 @@ import Article from "views/Articles/Article.js";
 import Factsheet from "views/Factsheets/Factsheet.js";
 import Feedback from "views/Feedbacks/Feedback.js";
 import Upload from "views/Upload/Upload.js";
+import SendFactsheet from "views/SendFactsheets/SendFactsheet.js";
+import ManageAccount from "views/ManageAccounts/ManageAccount.js";
+import CreateArticle from "views/CreateArticles/CreateArticle.js";
 
 let routes = [
   {
@@ -84,6 +87,13 @@ let routes = [
     icon: "now-ui-icons business_chart-pie-36",
     views: [
       {
+        path: "/management/account",
+        name: "Accounts",
+        mini: "ACC",
+        component: ManageAccount,
+        layout: "/admin",
+      },
+      {
         path: "/management/feedback",
         name: "Feedbacks",
         mini: "FB",
@@ -98,10 +108,10 @@ let routes = [
         layout: "/admin",
       },
       {
-        path: "/management/factsheet",
+        path: "/management/send-factsheet",
         name: "Send factsheet",
-        mini: "FS",
-        component: Dashboard,
+        mini: "SF",
+        component: SendFactsheet,
         layout: "/admin",
       },
       {
@@ -116,6 +126,13 @@ let routes = [
         name: "Tag",
         mini: "TA",
         component: Dashboard,
+        layout: "/admin",
+      },
+      {
+        path: "/management/create-article",
+        name: "Create article",
+        mini: "TA",
+        component: CreateArticle,
         layout: "/admin",
       },
     ],
