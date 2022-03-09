@@ -99,7 +99,7 @@ let routes = [
       },
       {
         path: "/management/factsheet",
-        name: "Factsheets",
+        name: "Send factsheet",
         mini: "FS",
         component: Dashboard,
         layout: "/admin",
