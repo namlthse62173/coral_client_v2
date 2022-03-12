@@ -48,14 +48,12 @@ import Feedback from "views/Feedbacks/Feedback.js";
 import Upload from "views/Upload/Upload.js";
 import SendFactsheet from "views/SendFactsheets/SendFactsheet.js";
 import ManageAccount from "views/ManageAccounts/ManageAccount.js";
-import SendFeedback from "views/SendFeedbacks/SendFeedback";
-import CreateArticle from "views/CreateArticles/CreateArticle";
+import CreateArticle from "views/CreateArticles/CreateArticle.js";
 
-/* Sidebar for admin */
-export let adminRoutes = [
+let routes = [
   {
     path: "/home-page",
-    name: "Dashboard",
+    name: "Home page",
     icon: "now-ui-icons design_app",
     component: Dashboard,
     layout: "/admin",
@@ -69,36 +67,29 @@ export let adminRoutes = [
   },
   {
     path: "/factsheet",
-    name: "Factsheets",
+    name: "Factsheet",
     icon: "now-ui-icons files_single-copy-04",
     component: Factsheet,
     layout: "/admin",
   },
   {
+    path: "/upload",
+    name: "Upload video/image",
+    icon: "now-ui-icons design_bullet-list-67",
+    component: Upload,
+    layout: "/admin",
+  },
+  {
     collapse: true,
     path: "/pages",
-    name: "Manager",
+    name: "Management",
     state: "openPages",
     icon: "now-ui-icons business_chart-pie-36",
     views: [
       {
-        path: "/management/article",
-        name: "Articles",
-        mini: "AT",
-        component: Dashboard,
-        layout: "/admin",
-      },
-      {
-        path: "/management/factsheet",
-        name: "Factsheet",
-        mini: "FS",
-        component: Dashboard,
-        layout: "/admin",
-      },
-      {
         path: "/management/account",
         name: "Accounts",
-        mini: "AC",
+        mini: "ACC",
         component: ManageAccount,
         layout: "/admin",
       },
@@ -110,81 +101,49 @@ export let adminRoutes = [
         layout: "/admin",
       },
       {
+        path: "/management/article",
+        name: "Articles",
+        mini: "AT",
+        component: Dashboard,
+        layout: "/admin",
+      },
+      {
+        path: "/management/send-factsheet",
+        name: "Send factsheet",
+        mini: "SF",
+        component: SendFactsheet,
+        layout: "/admin",
+      },
+      {
         path: "/management/season",
-        name: "Season and session",
+        name: "Season and sessions",
         mini: "SS",
         component: Dashboard,
         layout: "/admin",
       },
       {
-        path: "/management/statistic",
-        name: "Statistics",
-        mini: "ST",
+        path: "/management/tag",
+        name: "Tag",
+        mini: "TA",
         component: Dashboard,
         layout: "/admin",
-      }
+      },
+      {
+        path: "/management/create-article",
+        name: "Create article",
+        mini: "TA",
+        component: CreateArticle,
+        layout: "/admin",
+      },
     ],
+  },
+  {
+    path: "/login-page",
+    name: "Login/register",
+    icon: "now-ui-icons users_single-02",
+    layout: "/auth",
+    component: LoginPage
   },
 ];
 
-/* Sidebar for researcher */
-export let researcherRoutes = [
-  {
-    path: "/home-page",
-    name: "Dashboard",
-    icon: "now-ui-icons design_app",
-    component: Dashboard,
-    layout: "/researcher",
-  },
-  {
-    path: "/article",
-    name: "Articles",
-    icon: "now-ui-icons design_image",
-    component: Article,
-    layout: "/researcher",
-  },
-  {
-    path: "/factsheet",
-    name: "Factsheets",
-    icon: "now-ui-icons files_single-copy-04",
-    component: Factsheet,
-    layout: "/researcher",
-  },
-  {
-    path: "/send-feedback",
-    name: "Feedbacks",
-    icon: "now-ui-icons files_single-copy-04",
-    component: SendFeedback,
-    layout: "/researcher",
-  },
-  {
-    collapse: true,
-    path: "/pages",
-    name: "Manager",
-    state: "openPages",
-    icon: "now-ui-icons business_chart-pie-36",
-    views: [
-      {
-        path: "/management/contribute-article",
-        name: "Articles",
-        mini: "AT",
-        component: CreateArticle,
-        layout: "/researcher",
-      },
-      {
-        path: "/management/contribute-factsheet",
-        name: "Factsheets",
-        mini: "FS",
-        component: SendFactsheet,
-        layout: "/researcher",
-      },
-      {
-        path: "/management/label",
-        name: "Label image",
-        mini: "LI",
-        component: ManageAccount,
-        layout: "/researcher",
-      },
-    ],
-  },
-];
+export default routes;

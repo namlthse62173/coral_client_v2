@@ -6,7 +6,7 @@ import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
-import { adminRoutes } from "routes.js";
+import { researcherRoutes } from "routes.js";
 import UserPage from "views/Pages/UserPage.js";
 import Feedback from "views/Feedbacks/Feedback";
 import SendFeedback from "views/SendFeedbacks/SendFeedback";
@@ -15,7 +15,7 @@ import Dashboard from "views/Dashboard/Dashboard";
 
 var ps;
 
-function Admin(props) {
+export default function Researcher(props) {
   const location = useLocation();
   const [sidebarMini, setSidebarMini] = React.useState(true);
   const [backgroundColor, setBackgroundColor] = React.useState("blue");
@@ -72,7 +72,7 @@ function Admin(props) {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/researcher") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -110,31 +110,30 @@ function Admin(props) {
       <NotificationAlert ref={notificationAlert} />
       <Sidebar
         {...props}
-        routes={adminRoutes}
+        routes={researcherRoutes}
         minimizeSidebar={minimizeSidebar}
         backgroundColor={backgroundColor}
-        meta="admin"
+        meta="researcher"
       />
       <div className="main-panel" ref={mainPanel}>
-        <AdminNavbar {...props} brandText={getActiveRoute(adminRoutes)} />
+        <AdminNavbar {...props} brandText={getActiveRoute(researcherRoutes)} />
         <Switch>
-          {getRoutes(adminRoutes)}
+          {getRoutes(researcherRoutes)}
           <Route
-            path="/admin/user-page"
+            path="/researcher/user-page"
             component={UserPage}
           />
           <Route
-            path="/admin/upload-media"
+            path="/researcher/upload-media"
             component={Upload}
           />
           <Route
-            path="/admin/gallery"
+            path="/researcher/gallery"
             component={Dashboard}
           />
-          <Redirect from="/admin" to="/admin/home-page" />
+          <Redirect from="/researcher" to="/researcher/home-page" />
         </Switch>
         {
-          // we don't want the Footer to be rendered on full screen maps page
           window.location.href.indexOf("full-screen-maps") !== -1 ? null : (
             <Footer fluid />
           )
@@ -149,5 +148,3 @@ function Admin(props) {
     </div>
   );
 }
-
-export default Admin;

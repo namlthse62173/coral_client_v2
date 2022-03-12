@@ -46,8 +46,8 @@ fuzzyTextFilterFn.autoRemove = (val) => !val;
 /* React table component */
 function Table({ columns, data }) {
   const [numberOfRows, setNumberOfRows] = React.useState({
-    value: 10,
-    label: "10 rows",
+    value: 5,
+    label: "5 rows",
   });
   const [pageSelect, handlePageSelect] = React.useState({
     value: 0,
@@ -102,7 +102,7 @@ function Table({ columns, data }) {
       data,
       defaultColumn,
       filterTypes,
-      initialState: { pageSize: 10, pageIndex: 0 },
+      initialState: { pageSize: 5, pageIndex: 0 },
     },
     useFilters,
     useSortBy,

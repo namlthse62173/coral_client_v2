@@ -2,22 +2,10 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
-  Collapse,
   Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Container,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
 } from "reactstrap";
+import { AppContext } from "context/AppProvider";
 
 function AdminNavbar(props) {
   const location = useLocation();
@@ -92,11 +80,6 @@ function AdminNavbar(props) {
             </button>
           </div>
         </div>
-        {/* <NavbarToggler onClick={toggle}>
-          <span className="navbar-toggler-bar navbar-kebab" />
-          <span className="navbar-toggler-bar navbar-kebab" />
-          <span className="navbar-toggler-bar navbar-kebab" />
-        </NavbarToggler> */}
       </Container>
     </Navbar>
   );

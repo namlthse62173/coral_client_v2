@@ -8,11 +8,88 @@ import logo from "../../assets/img/coral.png";
 
 var ps;
 
+const MetaSideBar = ({ meta }) => {
+  return (
+    <>
+      {
+        meta === "admin" ?
+          <ul className="nav">
+            <li>
+              <Link to="/admin/user-page">
+                <span className="sidebar-mini-icon">MP</span>
+                <span className="sidebar-normal">My Profile</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/upload-media">
+                <span className="sidebar-mini-icon">UM</span>
+                <span className="sidebar-normal">Upload Image/video</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/gallery">
+                <span className="sidebar-mini-icon">GL</span>
+                <span className="sidebar-normal">Gallery</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/auth">
+                <span className="sidebar-mini-icon">L</span>
+                <span className="sidebar-normal">Logout</span>
+              </Link>
+            </li>
+          </ul>
+          :
+          meta === 'researcher' ?
+          <ul className="nav">
+            <li>
+              <Link to="/researcher/user-page">
+                <span className="sidebar-mini-icon">MP</span>
+                <span className="sidebar-normal">My Profile</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/researcher/upload-media">
+                <span className="sidebar-mini-icon">UM</span>
+                <span className="sidebar-normal">Upload Image/video</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/researcher/gallery">
+                <span className="sidebar-mini-icon">GL</span>
+                <span className="sidebar-normal">Gallery</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/auth">
+                <span className="sidebar-mini-icon">L</span>
+                <span className="sidebar-normal">Logout</span>
+              </Link>
+            </li>
+          </ul>
+            :
+            <></>
+      }
+    </>
+  )
+}
+
 function Sidebar(props) {
   const [openAvatar, setOpenAvatar] = React.useState(false);
   const [collapseStates, setCollapseStates] = React.useState({});
+  const [meta, setMeta] = React.useState('guest')
   const sidebar = React.useRef();
-  
+
+  React.useEffect(() => {
+    if (props.meta === 'admin') {
+      setMeta('admin')
+    } else if (props.meta === 'researcher') {
+      setMeta('researcher')
+    } else if (props.meta === 'user') {
+      setMeta('user')
+    }
+  });
+
   // Mac scroll
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -172,32 +249,7 @@ function Sidebar(props) {
                 </span>
               </a>
               <Collapse isOpen={openAvatar}>
-                <ul className="nav">
-                  <li>
-                    <Link to="/admin/user-page">
-                      <span className="sidebar-mini-icon">MP</span>
-                      <span className="sidebar-normal">My Profile</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/admin/management/feedback">
-                      <span className="sidebar-mini-icon">FB</span>
-                      <span className="sidebar-normal">Feedbacks</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/admin/management/send-feedback">
-                      <span className="sidebar-mini-icon">FB</span>
-                      <span className="sidebar-normal">Send Feedbacks</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/auth" onClick={handleLogout}>
-                      <span className="sidebar-mini-icon">L</span>
-                      <span className="sidebar-normal">Logout</span>
-                    </Link>
-                  </li>
-                </ul>
+                <MetaSideBar meta={meta}></MetaSideBar>
               </Collapse>
             </div>
           </div>
@@ -212,7 +264,7 @@ Sidebar.defaultProps = {
   routes: [],
   showNotification: false,
   backgroundColor: "blue",
-  minimizeSidebar: () => {},
+  minimizeSidebar: () => { },
 };
 
 Sidebar.propTypes = {

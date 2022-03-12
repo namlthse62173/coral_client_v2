@@ -6,24 +6,34 @@ import "assets/scss/now-ui-dashboard.scss?v=1.5.0";
 import "assets/css/demo.css";
 import AdminLayout from "layouts/Admin.js";
 import AuthLayout from "layouts/Auth.js";
+import ResearcherLayout from "layouts/Researcher.js";
+import AppProvider from "context/AppProvider";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route
-        path="/admin"
-        render={(props) => {
-          return <AdminLayout {...props} />;
-        }}
-      />
-      <Route
-        path="/auth"
-        render={(props) => {
-          return <AuthLayout {...props} />;
-        }}
-      />
-      <Redirect to="/admin/dashboard" />
-    </Switch>
-  </BrowserRouter>,
+  <AppProvider>
+    <BrowserRouter>
+      <Switch>
+        <Route
+          path="/admin"
+          render={(props) => {
+            return <AdminLayout {...props} />;
+          }}
+        />
+        <Route
+          path="/researcher"
+          render={(props) => {
+            return <ResearcherLayout {...props} />;
+          }}
+        />
+        <Route
+          path="/auth"
+          render={(props) => {
+            return <AuthLayout {...props} />;
+          }}
+        />
+        <Redirect to="/admin/dashboard" />
+      </Switch>
+    </BrowserRouter>
+  </AppProvider>,
   document.getElementById("root")
 );

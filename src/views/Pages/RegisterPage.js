@@ -16,6 +16,9 @@ import {
   Button,
 } from "reactstrap";
 import bgImage from "assets/img/auth-bg.jpg";
+import { fetchData } from "services/Service";
+import NotificationAlert from "react-notification-alert";
+import { AppContext, Loading } from "context/AppProvider";
 
 const verifyEmail = (value) => {
   var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -40,10 +43,7 @@ const verifyData = (registerData) => {
   if (registerData.email === "") {
     return false;
   }
-  if (registerData.firstName === "") {
-    return false;
-  }
-  if (registerData.lastName === "") {
+  if (registerData.fullName === "") {
     return false;
   }
   if (registerData.password === "") {
@@ -71,6 +71,8 @@ function RegisterPage() {
   const [registerPasswordState, setRegisterPasswordState] = React.useState("");
   const [registerPassword, setRegisterPassword] = React.useState("");
   const [registerConfirmPasswordState, setRegisterConfirmPasswordState] = React.useState("");
+  const { notify, notificationAlert } = React.useContext(AppContext);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     document.body.classList.add("register-page");
@@ -79,7 +81,7 @@ function RegisterPage() {
     };
   }, []);
 
-  const handleRegister = e => {
+  const handleRegister = async e => {
     e.preventDefault()
 
     if (registerEmailState === "") {
@@ -101,24 +103,30 @@ function RegisterPage() {
     const data = new FormData(e.target);
     const registerData = {
       email: data.get('email'),
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
+      fullName: `${data.get('firstName')} ${data.get('lastName')}`,
       password: data.get('password'),
       confirmPassword: data.get('confirmPassword')
     }
 
     if (verifyData(registerData)) {
-      console.log("Form data is accepted")
-      console.log({ registerData })
-    } else {
-      console.log("Form data is not accepted")
+      setIsLoading(true)
+      const res = await fetchData("api/account", "post", registerData);
+
+      if (res instanceof Error) {
+        setIsLoading(false)
+        notify(res.message, "danger");
+      } else {
+        setIsLoading(false)
+        notify("Create account successfully", "success");
+      }
     }
   }
 
-  return (
+  return isLoading ? <Loading/> : (
     <>
       <div className="content position-fixed">
         <div className="register-page">
+          <NotificationAlert ref={notificationAlert} />
           <Container>
             <Row className="justify-content-center">
               <Col lg={8} md={8} xs={12}>
