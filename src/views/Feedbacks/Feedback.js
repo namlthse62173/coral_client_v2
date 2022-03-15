@@ -3,7 +3,6 @@ import {
   Card,
   CardBody,
   CardHeader,
-  CardTitle,
   Badge,
   Row,
   Col,
@@ -12,40 +11,96 @@ import {
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import ReactTable from "components/ReactTable/ReactTable.js";
 import SweetAlert from "react-bootstrap-sweetalert";
-
-const demoData = [
-  {
-    id: 1,
-    email: "namlthse62173@fpt.edu.vn",
-    title: "article",
-    time: "2022-03-02 15:15:00",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
-  },
-  {
-    id: 2,
-    email: "namlthse62173@fpt.edu.vn",
-    title: "factsheet",
-    time: "2022-03-02 15:15:00",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
-  },
-  {
-    id: 3,
-    email: "namlthse62173@fpt.edu.vn",
-    title: "other",
-    time: "2022-03-02 15:15:00",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
-  }
-]
+import { fetchData } from "../../services/Service.js";
 
 const onConfirm = () => {
   console.log("On confirm");
 }
 
+const improveData = async (data) => {
+  const newData = [];
+  for(var i = 0; i < data.length; i++) {
+    const email = await fetchUser(data[i].accountId);
+    newData.push({
+      id: data[i].feedbackId,
+      email: email !== "" ? email : data[i].accountId, 
+      title: data[i].targetType === 1 ? "Article" : data[i].targetType === 2 ? "Factsheet" : "Other",
+      status: data[i].status === 1 ? "Pending" : data[i].status === 2 ? "Approved" : "Rejected",
+      content: data[i].feedbackContent,
+      time: data[i].createdTime,
+    })
+  }
+  return newData;
+}
+
+const fetchUser = async (id) => {
+  const res = await fetchData(`api/account/${id}`, "get")
+  if (res !== null) {
+    return res.email !== undefined ? res.email : "";
+  }
+  return "";
+}
+
 export default function Feedback() {
   const [isManage, setIsManage] = React.useState(true)
   const [detailData, setDetailData] = React.useState({})
-  const [data, setData] = React.useState(demoData);
+  const [data, setData] = React.useState([]);
   const [alert, setAlert] = React.useState(null);
+  const [dataState, setDataState] = React.useState(null);
+
+  React.useEffect(async () => {
+    async function doFetch() {
+      const res = await fetchData("api/feedback", "get")
+      if (res !== null) {
+        const newData = await improveData(res)
+        setData(newData)
+        return
+      } else {
+        console.log('error')
+        return
+      }
+    }
+    doFetch();
+  }, []);
+
+  React.useEffect(() => {
+    setDataState(data.map((d, key) => {
+      return {
+        id: key,
+        email: d.email,
+        title: d.title,
+        status: d.status,
+        content: d.content,
+        time: d.time,
+        actions: (
+          <div className="actions-right">
+            <Button
+              onClick={() => {
+                let obj = data[key]
+                handleView({ ...obj, actions: "" })
+              }}
+              className="btn-icon btn-round"
+              color="warning"
+              size="sm"
+            >
+              <i className="fa fa-eye" />
+            </Button>{" "}
+            <Button
+              onClick={() => {
+                let obj = dataState.find((o) => o.id === key);
+                handleDelete({ ...obj, actions: "" })
+              }}
+              className="btn-icon btn-round"
+              color="danger"
+              size="sm"
+            >
+              <i className="fa fa-times" />
+            </Button>{" "}
+          </div>
+        ),
+      };
+    }))
+  }, [data]);
 
   const handleView = obj => {
     console.log(obj)
@@ -78,47 +133,6 @@ export default function Feedback() {
     );
   };
 
-  const [dataState, setDataState] = React.useState(
-    data.map((d, key) => {
-      return {
-        id: key,
-        email: d.email,
-        title: d.title,
-        time: d.time,
-        content: d.content,
-        actions: (
-          // we've added some custom button actions
-          <div className="actions-right">
-            {/* use this button to add a edit kind of action */}
-            <Button
-              onClick={() => {
-                let obj = dataState.find((o) => o.id === key);
-                handleView({ ...obj, actions: "" })
-              }}
-              className="btn-icon btn-round"
-              color="warning"
-              size="sm"
-            >
-              <i className="fa fa-eye" />
-            </Button>{" "}
-            {/* use this button to remove the data row */}
-            <Button
-              onClick={() => {
-                let obj = dataState.find((o) => o.id === key);
-                handleDelete({ ...obj, actions: "" })
-              }}
-              className="btn-icon btn-round"
-              color="danger"
-              size="sm"
-            >
-              <i className="fa fa-times" />
-            </Button>{" "}
-          </div>
-        ),
-      };
-    })
-  );
-
   return (
     <>
       <PanelHeader size="sm" />
@@ -133,33 +147,42 @@ export default function Feedback() {
                     <h5 className='title'>Feedbacks</h5>
                   </CardHeader>
                   <CardBody>
-                    <ReactTable
-                      data={dataState}
-                      columns={[
-                        {
-                          Header: "User",
-                          accessor: "email",
-                        },
-                        {
-                          Header: "Title",
-                          accessor: "title",
-                        },
-                        {
-                          Header: "Send time",
-                          accessor: "time",
-                        },
-                        {
-                          Header: "Content",
-                          accessor: "content",
-                        },
-                        {
-                          Header: "Actions",
-                          accessor: "actions",
-                          sortable: false,
-                          filterable: false,
-                        },
-                      ]}
-                    />
+                    {
+                      dataState !== null ?
+                        <ReactTable
+                          data={dataState}
+                          columns={[
+                            {
+                              Header: "User",
+                              accessor: "email",
+                            },
+                            {
+                              Header: "Title",
+                              accessor: "title",
+                            },
+                            {
+                              Header: "Feedback status",
+                              accessor: "status",
+                            },
+                            {
+                              Header: "Content",
+                              accessor: "content",
+                            },
+                            {
+                              Header: "Send time",
+                              accessor: "time",
+                            },
+                            {
+                              Header: "Actions",
+                              accessor: "actions",
+                              sortable: false,
+                              filterable: false,
+                            },
+                          ]}
+                        />
+                        : ""
+                    }
+
                   </CardBody>
                 </Card>
               </Col>

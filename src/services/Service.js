@@ -1,6 +1,6 @@
 
-const serverEnv = "https://localhost:5001/";
-// const serverEnv = "https://coraldetectionmodel.azurewebsites.net/";
+// const serverEnv = "https://localhost:5001/";
+const serverEnv = "https://coraldetectionmodel.azurewebsites.net/";
 
 export const fetchData = async (url, method, payload = {}) => {
 
