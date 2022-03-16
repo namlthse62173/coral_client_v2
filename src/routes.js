@@ -50,6 +50,7 @@ import SendFactsheet from "views/SendFactsheets/SendFactsheet.js";
 import ManageAccount from "views/ManageAccounts/ManageAccount.js";
 import SendFeedback from "views/SendFeedbacks/SendFeedback";
 import CreateArticle from "views/CreateArticles/CreateArticle";
+import ManageArticle from "views/ManageArticles/ManageArticle";
 
 /* Sidebar for admin */
 export let adminRoutes = [
@@ -85,7 +86,7 @@ export let adminRoutes = [
         path: "/management/article",
         name: "Articles",
         mini: "AT",
-        component: Dashboard,
+        component: ManageArticle,
         layout: "/admin",
       },
       {

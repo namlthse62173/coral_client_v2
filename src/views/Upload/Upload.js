@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import Select from "react-select";
+import { firebaseUpload } from 'services/FireBaseService.js';
 
 var locationSelections = [
   { value: "location_1", label: "Location 1" },
@@ -30,7 +31,6 @@ var divingSelections = [
 ];
 
 export default function Upload() {
-
   const [locationSelect, setLocationSelect] = React.useState(null)
   const [seasonSelect, setSeasonSelect] = React.useState(null)
   const [divingSelect, setDivingSelect] = React.useState(null)
@@ -39,13 +39,13 @@ export default function Upload() {
   const [singleFile, setSingleFile] = React.useState(null);
   const singleFileRef = React.useRef();
 
-  const addSingleFile = (e, type) => {
+  const addSingleFile = async (e, type) => {
     let fileNames = "";
     let files = e.target.files;
     for (let i = 0; i < e.target.files.length; i++) {
       fileNames = fileNames + e.target.files[i].name;
     }
-    setSingleFile(files);
+    setSingleFile(files[0]);
     setSingleFileName(fileNames);
   };
   const handleSingleFileInput = (e) => {
@@ -53,14 +53,19 @@ export default function Upload() {
   };
 
   /* Handle input of user */
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const data = new FormData(e.target);
     console.log({
       title: data.get('title'),
       content: data.get('content'),
     })
-    console.log(singleFile)
+
+    /* Upload to firebase */
+    if (singleFile !== null && singleFileName !== '') {
+      const fileUrl = await firebaseUpload('media', singleFile, singleFileName);
+      console.log(fileUrl)
+    }
   }
 
   return (
