@@ -65,7 +65,7 @@ export let adminRoutes = [
     path: "/article",
     name: "Articles",
     icon: "now-ui-icons design_image",
-    component: Article,
+    component: CreateArticle,
     layout: "/admin",
   },
   {
